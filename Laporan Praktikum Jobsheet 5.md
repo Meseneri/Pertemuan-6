@@ -1,9 +1,9 @@
 # JOBSHEET 5 - PEMILIHAN 2
 
 **Identitas Mahasiswa:**
-* **Nama:** [Nama Mahasiswa]
-* **NIM:** [NIM Mahasiswa]
-* **Kelas / No. Presensi:** [Kelas Anda] / 28
+* **Nama:** Syauqi Khosyi Damar Agandi
+* **NIM:** 264107020033
+* **Kelas / No. Presensi:** TI-1D / 28
 
 ---
 
