@@ -61,16 +61,7 @@ public class nestedUjianSkripsi28 {
 }
 ```
 
-#### 2.1.2 Hasil Running / Screenshot Output
-
-```
-Apakah mahasiswa sudah bebas kompen? (Ya/Tidak): ya
-Masukkan jumlah log bimbingan Pembimbing 1: 6
-Masukkan jumlah log bimbingan Pembimbing 2: 5
-Gagal! Log bimbingan P1 belum mencapai 8 kali
-```
-
-#### 2.1.3 Jawaban Pertanyaan / Pertanyaan Refleksi
+#### 2.1.2 Jawaban Pertanyaan / Pertanyaan Refleksi
 
 * **Pertanyaan 1:** Apa yang terjadi jika mahasiswa menjawab "No" pada pertanyaan bebas kompen? Mengapa demikian?
   * **Jawab:** Program akan langsung mencetak pesan "Gagal! Mahasiswa masih memiliki tanggungan kompen". Hal ini terjadi karena kondisi `bebasKompen.equalsIgnoreCase("Ya")` bernilai salah, sehingga program langsung masuk ke blok `else` pada level pertama tanpa perlu memeriksa jumlah log bimbingan sama sekali.
@@ -119,16 +110,7 @@ public class operatorLogikaWifi28 {
 }
 ```
 
-#### 2.2.2 Hasil Running / Screenshot Output
-
-```
-Apakah pengguna mahasiswa? (true/false): true
-Apakah pengguna dosen? (true/false): false
-Apakah akun sedang diblokir? (true/false): false
-Akses WiFi diberikan
-```
-
-#### 2.2.3 Tabel Pengujian Parameter Output
+#### 2.2.2 Tabel Pengujian Parameter Output
 
 | No | mahasiswa | dosen | akunDiblokir | Output yang Dihasilkan | Status Eksekusi |
 | :---: | :---: | :---: | :---: | :--- | :---: |
@@ -137,7 +119,7 @@ Akses WiFi diberikan
 | 3 | true | false | true | "Akses WiFi ditolak" | Valid |
 | 4 | false | false | false | "Akses WiFi ditolak" | Valid |
 
-#### 2.2.4 Jawaban Pertanyaan / Pertanyaan Refleksi
+#### 2.2.3 Jawaban Pertanyaan / Pertanyaan Refleksi
 
 * **Pertanyaan 1:** Jelaskan fungsi operator `||`, `&&`, dan `!` pada kondisi program tersebut.
   * **Jawab:** Operator `||` (OR) menghasilkan nilai benar apabila salah satu dari dua kondisi bernilai benar. Operator `&&` (AND) menghasilkan nilai benar hanya apabila kedua kondisi sama-sama bernilai benar. Operator `!` (NOT) membalik nilai boolean, dari `true` menjadi `false` atau sebaliknya.
@@ -200,17 +182,7 @@ public class nestedAksesLab28 {
 }
 ```
 
-#### 2.3.2 Hasil Running / Screenshot Output
-
-```
-Apakah mahasiswa berstatus aktif? (true/false): true
-Apakah mahasiswa sedang disanksi? (true/false): false
-Apakah mahasiswa punya izin dosen? (true/false): true
-Apakah mahasiswa asisten lab? (true/false): false
-Akses laboratorium diberikan
-```
-
-#### 2.3.3 Tabel Pengujian Parameter Output
+#### 2.3.2 Tabel Pengujian Parameter Output
 
 | No | mahasiswaAktif | sedangDisanksi | punyaIzinDosen | asistenLab | Output yang Dihasilkan |
 | :---: | :---: | :---: | :---: | :---: | :--- |
@@ -219,7 +191,7 @@ Akses laboratorium diberikan
 | 3 | true | false | false | false | "Akses ditolak: membutuhkan izin dosen atau status asisten lab" |
 | 4 | false | false | true | true | "Akses ditolak: status mahasiswa tidak memenuhi syarat" |
 
-#### 2.3.4 Jawaban Pertanyaan / Pertanyaan Refleksi
+#### 2.3.3 Jawaban Pertanyaan / Pertanyaan Refleksi
 
 * **Pertanyaan 1:** Mengapa pemeriksaan `punyaIzinDosen || asistenLab` ditempatkan di dalam IF pertama?
   * **Jawab:** Karena pemeriksaan tersebut merupakan syarat kedua yang hanya relevan diperiksa apabila syarat pertama (status aktif dan tidak disanksi) sudah terpenuhi. Penempatan di dalam nested IF membuat program lebih efisien sekaligus memungkinkan pesan penolakan yang berbeda untuk tiap level kegagalan.
@@ -247,9 +219,45 @@ Berikut adalah daftar tugas yang dikerjakan pada Jobsheet ini:
 - [x] **Tugas 1:** Mengimplementasikan sistem diskon toko buku menggunakan Nested IF.
 - [x] **Tugas 2:** Membuat program sistem seleksi calon asisten praktikum.
 
-### 3.1 Implementasi Kode Tugas 1 — Sistem Diskon Toko Buku
+### 3.1 Implementasi Kode Tugas 1 — Sistem Diskon Toko Buku (Latihan 2)
 
-> **Catatan:** Kode berikut disusun berdasarkan asumsi umum kasus diskon toko buku (status member dan total belanja), karena rincian flowchart pada Latihan 2 Pertemuan 6 tidak tersedia dalam dokumen jobsheet. Silakan sesuaikan nilai ketentuan diskon di bawah dengan flowchart asli yang telah dibuat sebelumnya.
+Studi kasus: Setiap hari Rabu, toko buku memberikan diskon berdasarkan jenis buku yang dibeli, dengan ketentuan sebagai berikut.
+- **Kamus**: diskon 10%, ditambah 2% jika jumlah buku lebih dari 2.
+- **Novel**: diskon 7%, ditambah 2% jika jumlah novel lebih dari 3, atau ditambah 1% jika jumlah novel kurang dari atau sama dengan 3.
+- **Selain kamus dan novel**: diskon 5% jika jumlah buku lebih dari 3, jika tidak maka tidak mendapat diskon.
+
+**Pseudocode:**
+```
+PROGRAM
+DiskonTokoBuku
+
+DEKLARASI
+jenisBuku    : String
+jumlahBuku   : int
+persenDiskon : double
+
+ALGORITMA
+Input jenisBuku, jumlahBuku
+
+IF jenisBuku = "kamus" THEN
+    persenDiskon <- 10
+    IF jumlahBuku > 2 THEN
+        persenDiskon <- persenDiskon + 2
+ELSE IF jenisBuku = "novel" THEN
+    persenDiskon <- 7
+    IF jumlahBuku > 3 THEN
+        persenDiskon <- persenDiskon + 2
+    ELSE
+        persenDiskon <- persenDiskon + 1
+ELSE IF (jenisBuku <> "kamus") AND (jenisBuku <> "novel") AND (jumlahBuku > 3) THEN
+    persenDiskon <- 5
+ELSE
+    persenDiskon <- 0
+
+Output persenDiskon
+```
+
+**Kode Program Java:**
 
 ```java
 // tugas1DiskonTokoBuku28.java
@@ -259,36 +267,63 @@ public class tugas1DiskonTokoBuku28 {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
 
-        System.out.print("Apakah pelanggan member? (true/false): ");
-        boolean isMember = sc.nextBoolean();
+        System.out.print("Masukkan jenis buku (kamus/novel/lainnya): ");
+        String jenisBuku = sc.nextLine().trim();
 
-        System.out.print("Masukkan total belanja: ");
-        double totalBelanja = sc.nextDouble();
+        System.out.print("Masukkan jumlah buku yang dibeli: ");
+        int jumlahBuku = sc.nextInt();
 
-        double diskon;
-        double totalBayar;
+        double persenDiskon;
 
-        if (isMember) {
-            if (totalBelanja >= 500000) {
-                diskon = 0.20;
-            } else {
-                diskon = 0.10;
+        if (jenisBuku.equalsIgnoreCase("kamus")) {
+            persenDiskon = 10;
+            if (jumlahBuku > 2) {
+                persenDiskon += 2;
             }
+        } else if (jenisBuku.equalsIgnoreCase("novel")) {
+            persenDiskon = 7;
+            if (jumlahBuku > 3) {
+                persenDiskon += 2;
+            } else {
+                persenDiskon += 1;
+            }
+        } else if (!jenisBuku.equalsIgnoreCase("kamus") && !jenisBuku.equalsIgnoreCase("novel") && jumlahBuku > 3) {
+            persenDiskon = 5;
         } else {
-            if (totalBelanja >= 500000) {
-                diskon = 0.05;
-            } else {
-                diskon = 0;
-            }
+            persenDiskon = 0;
         }
 
-        totalBayar = totalBelanja - (totalBelanja * diskon);
-
-        System.out.println("Diskon yang didapat: " + (diskon * 100) + "%");
-        System.out.println("Total yang harus dibayar: Rp. " + totalBayar);
+        System.out.println("Jenis buku: " + jenisBuku);
+        System.out.println("Jumlah buku dibeli: " + jumlahBuku);
+        System.out.println("Total diskon yang didapat: " + persenDiskon + "%");
     }
 }
 ```
+
+**Contoh hasil run:**
+```
+Masukkan jenis buku (kamus/novel/lainnya): kamus
+Masukkan jumlah buku yang dibeli: 3
+Jenis buku: kamus
+Jumlah buku dibeli: 3
+Total diskon yang didapat: 12.0%
+```
+```
+Masukkan jenis buku (kamus/novel/lainnya): novel
+Masukkan jumlah buku yang dibeli: 2
+Jenis buku: novel
+Jumlah buku dibeli: 2
+Total diskon yang didapat: 8.0%
+```
+```
+Masukkan jenis buku (kamus/novel/lainnya): komik
+Masukkan jumlah buku yang dibeli: 4
+Jenis buku: komik
+Jumlah buku dibeli: 4
+Total diskon yang didapat: 5.0%
+```
+
+**Penjelasan penerapan operator logika:** Kondisi untuk kategori "buku selain kamus dan novel" menggunakan kombinasi operator `!` (NOT) untuk memastikan jenis buku bukan kamus dan bukan novel, serta operator `&&` (AND) untuk memastikan jumlah buku juga lebih dari 3 sebelum diskon 5% diberikan.
 
 ### 3.2 Implementasi Kode Tugas 2 — tugas2SeleksiAsisten28.java
 
