@@ -1,9 +1,9 @@
-# JOBSHEET 4 - PEMILIHAN 1
+# JOBSHEET 5 - PEMILIHAN 2
 
 **Identitas Mahasiswa:**
-* **Nama:** Syauqi Khosyi Damar Agandi
-* **NIM:** 264107020033
-* **Kelas / No. Presensi:** TI-1D / 28
+* **Nama:** [Nama Mahasiswa]
+* **NIM:** [NIM Mahasiswa]
+* **Kelas / No. Presensi:** [Kelas Anda] / 28
 
 ---
 
@@ -11,119 +11,109 @@
 
 Berikut adalah tujuan pelaksanaan praktikum pada bab ini:
 
-1. Mahasiswa mampu menyelesaikan permasalahan/studi kasus menggunakan sintaks pemilihan sederhana.
-2. Mahasiswa mampu menerapkan sintaks pemilihan sederhana ke dalam program Java.
+1. Mahasiswa mampu menyelesaikan permasalahan/studi kasus menggunakan sintaks pemilihan bersarang.
+2. Mahasiswa mampu menerapkan sintaks pemilihan bersarang ke dalam program Java.
+3. Mahasiswa mampu menerapkan operator logika `&&`, `||`, dan `!` pada struktur pemilihan.
 
 ---
 
 ## 2: HASIL PERCOBAAN & ANALISIS
 
-### 2.1 Percobaan 1: Penerapan IF dan IF-ELSE untuk Mencetak KRS
+### 2.1 Percobaan 1: Nested IF untuk Mengecek Syarat Ujian Skripsi
 
-Percobaan ini membuat program untuk memeriksa status pelunasan UKT mahasiswa. Apabila UKT sudah lunas, sistem akan menampilkan pesan verifikasi dan izin untuk mencetak KRS. Apabila belum lunas, sistem akan menampilkan pesan penolakan registrasi.
+Percobaan ini membuat program untuk memeriksa syarat pendaftaran ujian skripsi. Sistem terlebih dahulu memeriksa status bebas kompen, kemudian memeriksa jumlah log bimbingan dengan Pembimbing 1 dan Pembimbing 2 menggunakan struktur pemilihan bersarang (Nested IF).
 
 #### 2.1.1 Kode Program Java
 
 ```java
-// PemilihanIf28.java
+// nestedUjianSkripsi28.java
 import java.util.Scanner;
 
-public class PemilihanIf28 {
+public class nestedUjianSkripsi28 {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
+        String pesan;
 
-        System.out.println("--- Cetak KRS SIAKAD ---");
-        System.out.print("Apakah UKT sudah lunas? (true/false): ");
-        boolean uktLunas = sc.nextBoolean();
+        System.out.print("Apakah mahasiswa sudah bebas kompen? (Ya/Tidak): ");
+        String bebasKompen = sc.nextLine().trim();
 
-        if (uktLunas) {
-            System.out.println("Pembayaran UKT terverifikasi");
-            System.out.println("Silakan cetak KRS dan minta tanda tangan DPA");
+        System.out.print("Masukkan jumlah log bimbingan Pembimbing 1: ");
+        int bimbinganP1 = sc.nextInt();
+        System.out.print("Masukkan jumlah log bimbingan Pembimbing 2: ");
+        int bimbinganP2 = sc.nextInt();
+
+        if (bebasKompen.equalsIgnoreCase("Ya")) {
+            if (bimbinganP1 >= 8 && bimbinganP2 >= 4) {
+                pesan = "Semua syarat terpenuhi. Mahasiswa boleh mendaftar ujian skripsi";
+            } else if (bimbinganP1 < 8 && bimbinganP2 < 4) {
+                pesan = "Gagal! Log bimbingan P1 kurang dari 8 kali dan P2 kurang dari 4 kali";
+            } else if (bimbinganP1 < 8) {
+                pesan = "Gagal! Log bimbingan P1 belum mencapai 8 kali";
+            } else {
+                pesan = "Gagal! Log bimbingan P2 belum mencapai 4 kali";
+            }
         } else {
-            System.out.println("Registrasi ditolak. Silakan lunasi UKT terlebih dahulu");
+            pesan = "Gagal! Mahasiswa masih memiliki tanggungan kompen";
         }
+
+        System.out.println(pesan);
     }
 }
 ```
 
 #### 2.1.2 Hasil Running / Screenshot Output
 
-Contoh tampilan output dengan input `true`:
 ```
---- Cetak KRS SIAKAD ---
-Apakah UKT sudah lunas? (true/false): true
-Pembayaran UKT terverifikasi
-Silakan cetak KRS dan minta tanda tangan DPA
-```
-
-Contoh tampilan output dengan input `false`:
-```
---- Cetak KRS SIAKAD ---
-Apakah UKT sudah lunas? (true/false): false
-Registrasi ditolak. Silakan lunasi UKT terlebih dahulu
+Apakah mahasiswa sudah bebas kompen? (Ya/Tidak): ya
+Masukkan jumlah log bimbingan Pembimbing 1: 6
+Masukkan jumlah log bimbingan Pembimbing 2: 5
+Gagal! Log bimbingan P1 belum mencapai 8 kali
 ```
 
 #### 2.1.3 Jawaban Pertanyaan / Pertanyaan Refleksi
 
-* **Pertanyaan 1:** Nilai apa yang harus dimasukkan agar kedua baris di dalam blok IF ikut tercetak? Jelaskan mengapa hanya nilai tersebut yang diterima!
-  * **Jawab:** Nilai yang harus dimasukkan adalah `true`, karena variabel `uktLunas` bertipe boolean yang hanya mengenal dua nilai, yaitu `true` dan `false`.
+* **Pertanyaan 1:** Apa yang terjadi jika mahasiswa menjawab "No" pada pertanyaan bebas kompen? Mengapa demikian?
+  * **Jawab:** Program akan langsung mencetak pesan "Gagal! Mahasiswa masih memiliki tanggungan kompen". Hal ini terjadi karena kondisi `bebasKompen.equalsIgnoreCase("Ya")` bernilai salah, sehingga program langsung masuk ke blok `else` pada level pertama tanpa perlu memeriksa jumlah log bimbingan sama sekali.
 
-* **Pertanyaan 2:** Jalankan program, lalu masukkan `false`. Baris mana saja yang tercetak dan baris mana yang tidak? Jelaskan alur eksekusinya ketika kondisi IF bernilai false!
-  * **Jawab:** Ketika dimasukkan `false`, hanya baris judul dan pertanyaan awal yang tercetak. Dua baris di dalam blok IF tidak ikut tercetak karena kondisinya bernilai salah, sehingga program melewati blok IF dan langsung lanjut ke baris setelahnya (blok else).
+* **Pertanyaan 2:** Jelaskan maksud dari potongan kode `if (bimbinganP1 >= 8 && bimbinganP2 >= 4)`!
+  * **Jawab:** Kode tersebut memeriksa apakah kedua syarat log bimbingan terpenuhi secara bersamaan, yaitu bimbingan Pembimbing 1 sudah mencapai minimal 8 kali **dan** bimbingan Pembimbing 2 sudah mencapai minimal 4 kali. Karena menggunakan operator `&&` (AND), kondisi keseluruhan hanya bernilai benar apabila kedua syarat tersebut sama-sama terpenuhi.
 
-* **Pertanyaan 3:** Jalankan program, lalu masukkan `TRUE` (huruf kapital) dan `ya`. Apa yang terjadi pada masing-masing input? Jika program berhenti dengan error, jelaskan penyebabnya!
-  * **Jawab:** Input `TRUE` (kapital) tetap berjalan normal karena `nextBoolean()` tidak membedakan huruf besar-kecil. Sedangkan input `ya` menyebabkan program berhenti dengan error `InputMismatchException`, karena kata tersebut bukan representasi boolean yang valid di Java.
-
-* **Pertanyaan 4:** Modifikasi program dengan menambahkan struktur ELSE, lalu tunjukkan hasil run untuk input `true` dan `false`!
-  * **Jawab:** Struktur ELSE ditambahkan berisi pesan "Registrasi ditolak. Silakan lunasi UKT terlebih dahulu" (sudah tercermin pada kode program di atas). Jika input `true`, muncul pesan verifikasi UKT; jika `false`, muncul pesan penolakan registrasi.
+* **Pertanyaan 3:** Bagaimana alur pemeriksaan syarat mahasiswa dari awal sampai akhir? Jelaskan secara runtut untuk semua kondisi!
+  * **Jawab:** Pertama, sistem memeriksa status bebas kompen. Jika belum bebas kompen, proses berhenti dan langsung menampilkan pesan gagal. Jika sudah bebas kompen, sistem lanjut memeriksa jumlah log bimbingan pada level kedua: apabila P1 dan P2 sama-sama memenuhi syarat, mahasiswa dinyatakan boleh mendaftar; apabila keduanya belum memenuhi syarat, ditampilkan pesan bahwa keduanya kurang; apabila hanya P1 yang kurang, ditampilkan pesan khusus untuk P1; dan apabila hanya P2 yang kurang, ditampilkan pesan khusus untuk P2.
 
 ---
 
-### 2.2 Percobaan 2: SWITCH-CASE untuk Mencetak KRS
+### 2.2 Percobaan 2: Operator Logika untuk Menentukan Akses WiFi Kampus
 
-Percobaan ini membuat program untuk menampilkan KRS sesuai semester mahasiswa saat ini menggunakan struktur pemilihan switch-case.
+Percobaan ini membuat program untuk menentukan akses WiFi kampus berdasarkan status pengguna (mahasiswa/dosen) dan status blokir akun, dengan menerapkan operator logika `&&`, `||`, dan `!`.
 
 #### 2.2.1 Kode Program Java
 
 ```java
-// PemilihanSwitch28.java
+// operatorLogikaWifi28.java
 import java.util.Scanner;
 
-public class PemilihanSwitch28 {
+public class operatorLogikaWifi28 {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
 
-        System.out.println("--- Cetak KRS SIAKAD ---");
-        System.out.print("Masukkan semester saat ini: ");
-        int semester = sc.nextInt();
+        boolean mahasiswa;
+        boolean dosen;
+        boolean akunDiblokir;
 
-        switch (semester) {
-            case 1:
-                System.out.println("KRS Semester 1 ditampilkan");
-                break;
-            case 2:
-                System.out.println("KRS Semester 2 ditampilkan");
-                break;
-            case 3:
-                System.out.println("KRS Semester 3 ditampilkan");
-                break;
-            case 4:
-                System.out.println("KRS Semester 4 ditampilkan");
-                break;
-            case 5:
-                System.out.println("KRS Semester 5 ditampilkan");
-                break;
-            case 6:
-                System.out.println("KRS Semester 6 ditampilkan");
-                break;
-            case 7:
-                System.out.println("KRS Semester 7 ditampilkan");
-                break;
-            case 8:
-                System.out.println("KRS Semester 8 ditampilkan");
-                break;
-            default:
-                System.out.println("Semester tidak valid");
+        System.out.print("Apakah pengguna mahasiswa? (true/false): ");
+        mahasiswa = sc.nextBoolean();
+
+        System.out.print("Apakah pengguna dosen? (true/false): ");
+        dosen = sc.nextBoolean();
+
+        System.out.print("Apakah akun sedang diblokir? (true/false): ");
+        akunDiblokir = sc.nextBoolean();
+
+        if ((mahasiswa || dosen) && !akunDiblokir) {
+            System.out.println("Akses WiFi diberikan");
+        } else {
+            System.out.println("Akses WiFi ditolak");
         }
     }
 }
@@ -132,69 +122,121 @@ public class PemilihanSwitch28 {
 #### 2.2.2 Hasil Running / Screenshot Output
 
 ```
---- Cetak KRS SIAKAD ---
-Masukkan semester saat ini: 5
-KRS Semester 5 ditampilkan
+Apakah pengguna mahasiswa? (true/false): true
+Apakah pengguna dosen? (true/false): false
+Apakah akun sedang diblokir? (true/false): false
+Akses WiFi diberikan
 ```
 
 #### 2.2.3 Tabel Pengujian Parameter Output
 
-| No | Input Parameter | Output yang Dihasilkan | Status Eksekusi |
-| :---: | :--- | :--- | :---: |
-| 1 | `1` | "KRS Semester 1 ditampilkan" | Valid |
-| 2 | `5` | "KRS Semester 5 ditampilkan" | Valid |
-| 3 | `8` | "KRS Semester 8 ditampilkan" | Valid |
-| 4 | `10` | "Semester tidak valid" | Invalid |
-| 5 | `0` | "Semester tidak valid" | Invalid |
+| No | mahasiswa | dosen | akunDiblokir | Output yang Dihasilkan | Status Eksekusi |
+| :---: | :---: | :---: | :---: | :--- | :---: |
+| 1 | true | false | false | "Akses WiFi diberikan" | Valid |
+| 2 | false | true | false | "Akses WiFi diberikan" | Valid |
+| 3 | true | false | true | "Akses WiFi ditolak" | Valid |
+| 4 | false | false | false | "Akses WiFi ditolak" | Valid |
 
 #### 2.2.4 Jawaban Pertanyaan / Pertanyaan Refleksi
 
-* **Pertanyaan 1:** Hapus perintah `break;` pada case 5, lalu compile dan jalankan kembali program dengan masukan 5. Tuliskan keluaran yang muncul, lalu jelaskan apa fungsi break!
-  * **Jawab:** Keluaran yang muncul adalah "KRS Semester 5 ditampilkan" dan "KRS Semester 6 ditampilkan". Fungsi `break` adalah menghentikan eksekusi switch setelah case yang cocok dijalankan; tanpa `break`, eksekusi akan lanjut (fall-through) ke case berikutnya.
+* **Pertanyaan 1:** Jelaskan fungsi operator `||`, `&&`, dan `!` pada kondisi program tersebut.
+  * **Jawab:** Operator `||` (OR) menghasilkan nilai benar apabila salah satu dari dua kondisi bernilai benar. Operator `&&` (AND) menghasilkan nilai benar hanya apabila kedua kondisi sama-sama bernilai benar. Operator `!` (NOT) membalik nilai boolean, dari `true` menjadi `false` atau sebaliknya.
 
-* **Pertanyaan 2:** Jalankan program dengan masukan 10, lalu dengan masukan 0. Apa keluaran yang muncul? Jelaskan peran default!
-  * **Jawab:** Input 10 maupun 0 sama-sama menghasilkan "Semester tidak valid", karena keduanya tidak cocok dengan case manapun sehingga masuk ke `default`. Peran `default` adalah menangani nilai yang tidak sesuai case manapun. Jika dihapus, program tetap berjalan tanpa error, tetapi tidak menampilkan keluaran apapun untuk input yang tidak valid.
+* **Pertanyaan 2:** Mengapa pengguna dosen tetap dapat memperoleh akses ketika nilai mahasiswa = false?
+  * **Jawab:** Karena kondisi `(mahasiswa || dosen)` menggunakan operator OR, sehingga cukup salah satu bernilai benar agar keseluruhan kondisi bernilai benar. Meskipun `mahasiswa` bernilai `false`, selama `dosen` bernilai `true`, hasilnya tetap `true`.
 
-* **Pertanyaan 3:** Ganti tipe data variabel semester menjadi double, lalu compile programnya. Apakah berhasil? Sebutkan tipe data yang boleh digunakan pada switch!
-  * **Jawab:** Program gagal dikompilasi dengan pesan error kurang lebih *"incompatible types: possible lossy conversion from double to int"*, karena switch tidak mengizinkan tipe data pecahan. Tipe data yang diperbolehkan sebagai ekspresi switch adalah `byte`, `short`, `char`, `int` (beserta wrapper class-nya), `enum`, dan `String`.
+* **Pertanyaan 3:** Ubah operator `||` menjadi `&&`. Jalankan kembali program menggunakan data uji 1 dan 2. Apa yang terjadi dan mengapa?
+  * **Jawab:** Jika diubah menjadi `(mahasiswa && dosen)`, maka pada data uji 1 (`mahasiswa=true, dosen=false`) dan data uji 2 (`mahasiswa=false, dosen=true`), hasilnya berubah menjadi "Akses WiFi ditolak". Hal ini terjadi karena AND mensyaratkan kedua kondisi harus bernilai benar secara bersamaan, padahal seorang pengguna biasanya hanya berstatus mahasiswa **atau** dosen saja, sehingga penggunaan AND tidak sesuai dengan logika masalah aslinya.
 
-* **Pertanyaan 4:** Buat file `PemilihanIfElse28.java`. Ubah program SWITCH-CASE ke bentuk IF - ELSE IF - ELSE dengan keluaran yang sama persis!
-  * **Jawab:** Kode hasil konversi adalah sebagai berikut. Menurut saya, switch-case lebih mudah dibaca untuk kasus ini, karena lebih ringkas dan tidak perlu mengulang kondisi `semester ==` di setiap pengecekan seperti pada if-else-if.
+* **Pertanyaan 4:** Pada ekspresi `mahasiswa || dosen`, kapan kondisi dosen tidak perlu dievaluasi? Jelaskan berdasarkan *short-circuit evaluation*!
+  * **Jawab:** Kondisi `dosen` tidak perlu dievaluasi apabila `mahasiswa` sudah bernilai `true`. Pada operator OR, begitu operand pertama sudah bernilai benar, hasil keseluruhan ekspresi sudah pasti benar, sehingga Java tidak perlu lagi mengevaluasi operand kedua demi efisiensi.
+
+* **Pertanyaan 5:** Pada ekspresi `(mahasiswa || dosen) && !akunDiblokir`, kapan kondisi `!akunDiblokir` tidak perlu dievaluasi?
+  * **Jawab:** Kondisi `!akunDiblokir` tidak perlu dievaluasi apabila hasil dari `(mahasiswa || dosen)` sudah bernilai `false`. Pada operator AND, jika operand pertama sudah bernilai salah, hasil keseluruhan ekspresi sudah pasti salah, sehingga operand kedua tidak perlu dievaluasi lagi.
+
+---
+
+### 2.3 Percobaan 3: Nested IF dan Operator Logika untuk Menentukan Akses Laboratorium
+
+Percobaan ini menggabungkan Nested IF dengan operator logika untuk menentukan akses laboratorium di luar jadwal kuliah, berdasarkan status keaktifan mahasiswa, status sanksi, izin dosen, dan status asisten lab.
+
+#### 2.3.1 Kode Program Java
 
 ```java
-// PemilihanIfElse28.java
+// nestedAksesLab28.java
 import java.util.Scanner;
 
-public class PemilihanIfElse28 {
+public class nestedAksesLab28 {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
 
-        System.out.println("--- Cetak KRS SIAKAD ---");
-        System.out.print("Masukkan semester saat ini: ");
-        int semester = sc.nextInt();
+        boolean mahasiswaAktif;
+        boolean sedangDisanksi;
+        boolean punyaIzinDosen;
+        boolean asistenLab;
 
-        if (semester == 1) {
-            System.out.println("KRS Semester 1 ditampilkan");
-        } else if (semester == 2) {
-            System.out.println("KRS Semester 2 ditampilkan");
-        } else if (semester == 3) {
-            System.out.println("KRS Semester 3 ditampilkan");
-        } else if (semester == 4) {
-            System.out.println("KRS Semester 4 ditampilkan");
-        } else if (semester == 5) {
-            System.out.println("KRS Semester 5 ditampilkan");
-        } else if (semester == 6) {
-            System.out.println("KRS Semester 6 ditampilkan");
-        } else if (semester == 7) {
-            System.out.println("KRS Semester 7 ditampilkan");
-        } else if (semester == 8) {
-            System.out.println("KRS Semester 8 ditampilkan");
+        System.out.print("Apakah mahasiswa berstatus aktif? (true/false): ");
+        mahasiswaAktif = sc.nextBoolean();
+
+        System.out.print("Apakah mahasiswa sedang disanksi? (true/false): ");
+        sedangDisanksi = sc.nextBoolean();
+
+        System.out.print("Apakah mahasiswa punya izin dosen? (true/false): ");
+        punyaIzinDosen = sc.nextBoolean();
+
+        System.out.print("Apakah mahasiswa asisten lab? (true/false): ");
+        asistenLab = sc.nextBoolean();
+
+        if (mahasiswaAktif && !sedangDisanksi) {
+            if (punyaIzinDosen || asistenLab) {
+                System.out.println("Akses laboratorium diberikan");
+            } else {
+                System.out.println("Akses ditolak: membutuhkan izin dosen atau status asisten lab");
+            }
         } else {
-            System.out.println("Semester tidak valid");
+            System.out.println("Akses ditolak: status mahasiswa tidak memenuhi syarat");
         }
     }
 }
 ```
+
+#### 2.3.2 Hasil Running / Screenshot Output
+
+```
+Apakah mahasiswa berstatus aktif? (true/false): true
+Apakah mahasiswa sedang disanksi? (true/false): false
+Apakah mahasiswa punya izin dosen? (true/false): true
+Apakah mahasiswa asisten lab? (true/false): false
+Akses laboratorium diberikan
+```
+
+#### 2.3.3 Tabel Pengujian Parameter Output
+
+| No | mahasiswaAktif | sedangDisanksi | punyaIzinDosen | asistenLab | Output yang Dihasilkan |
+| :---: | :---: | :---: | :---: | :---: | :--- |
+| 1 | true | false | true | false | "Akses laboratorium diberikan" |
+| 2 | true | false | false | true | "Akses laboratorium diberikan" |
+| 3 | true | false | false | false | "Akses ditolak: membutuhkan izin dosen atau status asisten lab" |
+| 4 | false | false | true | true | "Akses ditolak: status mahasiswa tidak memenuhi syarat" |
+
+#### 2.3.4 Jawaban Pertanyaan / Pertanyaan Refleksi
+
+* **Pertanyaan 1:** Mengapa pemeriksaan `punyaIzinDosen || asistenLab` ditempatkan di dalam IF pertama?
+  * **Jawab:** Karena pemeriksaan tersebut merupakan syarat kedua yang hanya relevan diperiksa apabila syarat pertama (status aktif dan tidak disanksi) sudah terpenuhi. Penempatan di dalam nested IF membuat program lebih efisien sekaligus memungkinkan pesan penolakan yang berbeda untuk tiap level kegagalan.
+
+* **Pertanyaan 2:** Jelaskan fungsi operator `&&`, `||`, dan `!` pada program tersebut.
+  * **Jawab:** Operator `&&` digunakan untuk memastikan dua syarat terpenuhi bersamaan (mahasiswa aktif dan tidak disanksi). Operator `||` digunakan untuk memeriksa apakah salah satu dari dua syarat terpenuhi (izin dosen atau status asisten lab). Operator `!` digunakan untuk membalik nilai `sedangDisanksi`, sehingga kondisi terpenuhi apabila mahasiswa **tidak** sedang disanksi.
+
+* **Pertanyaan 3:** Apakah syarat akses dapat ditulis menjadi satu kondisi: `mahasiswaAktif && !sedangDisanksi && (punyaIzinDosen || asistenLab)`? Jelaskan apakah keputusan akses akhirnya sama.
+  * **Jawab:** Ya, syarat dapat digabung menjadi satu kondisi tersebut, dan keputusan akhir (akses diberikan/ditolak) akan tetap sama persis, karena secara logika boolean kedua bentuk tersebut ekuivalen. Perbedaannya hanya pada kemampuan program memberikan pesan alasan penolakan yang berbeda.
+
+* **Pertanyaan 4:** Apa keuntungan menggunakan Nested IF dibandingkan hanya satu IF jika sistem perlu menampilkan alasan penolakan yang berbeda?
+  * **Jawab:** Keuntungannya adalah program dapat menampilkan pesan alasan penolakan yang lebih spesifik dan informatif, yaitu dapat membedakan apakah penolakan terjadi karena status mahasiswa tidak memenuhi syarat (level pertama) atau karena tidak adanya izin dosen maupun status asisten lab (level kedua). Jika menggunakan satu kondisi gabungan, program hanya bisa menampilkan pesan penolakan yang sama secara umum.
+
+* **Pertanyaan 5:** Buat satu kombinasi masukan yang menyebabkan akses ditolak pada level pertama dan satu kombinasi yang menyebabkan akses ditolak pada level kedua.
+  * **Jawab:**
+    - **Ditolak level pertama**: `mahasiswaAktif = false`, `sedangDisanksi = false` → hasil: "Akses ditolak: status mahasiswa tidak memenuhi syarat".
+    - **Ditolak level kedua**: `mahasiswaAktif = true`, `sedangDisanksi = false`, `punyaIzinDosen = false`, `asistenLab = false` → hasil: "Akses ditolak: membutuhkan izin dosen atau status asisten lab".
 
 ---
 
@@ -202,117 +244,88 @@ public class PemilihanIfElse28 {
 
 Berikut adalah daftar tugas yang dikerjakan pada Jobsheet ini:
 
-- [x] **Tugas 1:** Mengubah struktur `if-else` pada PemilihanIf28.java menjadi *Ternary Operator*.
-- [x] **Tugas 2:** Membuat program berdasarkan *Flowchart* penentuan validasi SKS.
-- [x] **Tugas 3:** Mengimplementasikan studi kasus sistem parkir & mesin antrean akademik.
+- [x] **Tugas 1:** Mengimplementasikan sistem diskon toko buku menggunakan Nested IF.
+- [x] **Tugas 2:** Membuat program sistem seleksi calon asisten praktikum.
 
-### 3.1 Implementasi Kode Tugas 1 — Tugas1Pemilihan28.java
+### 3.1 Implementasi Kode Tugas 1 — Sistem Diskon Toko Buku
+
+> **Catatan:** Kode berikut disusun berdasarkan asumsi umum kasus diskon toko buku (status member dan total belanja), karena rincian flowchart pada Latihan 2 Pertemuan 6 tidak tersedia dalam dokumen jobsheet. Silakan sesuaikan nilai ketentuan diskon di bawah dengan flowchart asli yang telah dibuat sebelumnya.
 
 ```java
+// tugas1DiskonTokoBuku28.java
 import java.util.Scanner;
 
-public class Tugas1Pemilihan28 {
+public class tugas1DiskonTokoBuku28 {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
 
-        System.out.println("--- Cetak KRS SIAKAD ---");
-        System.out.print("Apakah UKT sudah lunas? (true/false): ");
-        boolean uktLunas = sc.nextBoolean();
+        System.out.print("Apakah pelanggan member? (true/false): ");
+        boolean isMember = sc.nextBoolean();
 
-        String pesan = uktLunas
-                ? "Pembayaran UKT terverifikasi\nSilakan cetak KRS dan minta tanda tangan DPA"
-                : "Registrasi ditolak. Silakan lunasi UKT terlebih dahulu";
+        System.out.print("Masukkan total belanja: ");
+        double totalBelanja = sc.nextDouble();
 
-        System.out.println(pesan);
-    }
-}
-```
+        double diskon;
+        double totalBayar;
 
-*Catatan:* Ternary operator lebih baik digunakan untuk keputusan sederhana yang hanya memilih satu dari dua nilai untuk disimpan ke variabel, sehingga kode lebih ringkas. Sebaiknya dihindari jika logikanya kompleks atau melibatkan banyak instruksi, karena dapat menurunkan keterbacaan kode.
-
-### 3.2 Implementasi Kode Tugas 2 — Tugas2Pemilihan28.java
-
-```java
-import java.util.Scanner;
-
-public class Tugas2Pemilihan28 {
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-
-        System.out.print("Masukkan jumlah SKS: ");
-        int jumlahSks = sc.nextInt();
-
-        if (jumlahSks > 24) {
-            System.out.println("Melebihi batas");
+        if (isMember) {
+            if (totalBelanja >= 500000) {
+                diskon = 0.20;
+            } else {
+                diskon = 0.10;
+            }
         } else {
-            System.out.println("KRS valid");
-        }
-    }
-}
-```
-
-### 3.3 Implementasi Kode Tugas 3 — Sistem Parkir & Mesin Antrean
-
-**a. TugasParkir28.java** (struktur IF-ELSE)
-
-```java
-import java.util.Scanner;
-
-public class TugasParkir28 {
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-
-        System.out.print("Masukkan lama parkir (jam): ");
-        int lamaParkir = sc.nextInt();
-
-        int tarifDasar = 2000;
-        int tarifTambahan = 1000;
-        int totalBiaya;
-
-        if (lamaParkir <= 2) {
-            totalBiaya = tarifDasar;
-        } else {
-            int jamLebih = lamaParkir - 2;
-            totalBiaya = tarifDasar + (jamLebih * tarifTambahan);
+            if (totalBelanja >= 500000) {
+                diskon = 0.05;
+            } else {
+                diskon = 0;
+            }
         }
 
-        System.out.println("Lama parkir: " + lamaParkir + " jam");
-        System.out.println("Total biaya parkir: Rp. " + totalBiaya);
+        totalBayar = totalBelanja - (totalBelanja * diskon);
+
+        System.out.println("Diskon yang didapat: " + (diskon * 100) + "%");
+        System.out.println("Total yang harus dibayar: Rp. " + totalBayar);
     }
 }
 ```
 
-**b. TugasAntrean28.java** (struktur SWITCH-CASE)
+### 3.2 Implementasi Kode Tugas 2 — tugas2SeleksiAsisten28.java
 
 ```java
 import java.util.Scanner;
 
-public class TugasAntrean28 {
+public class tugas2SeleksiAsisten28 {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
 
-        System.out.print("Masukkan kode layanan: ");
-        int kodeLayanan = sc.nextInt();
+        System.out.print("Apakah mahasiswa berstatus aktif? (true/false): ");
+        boolean statusAktif = sc.nextBoolean();
 
-        switch (kodeLayanan) {
-            case 1:
-                System.out.println("Layanan: Legalisir Ijazah");
-                System.out.println("Silakan menuju Loket A");
-                break;
-            case 2:
-                System.out.println("Layanan: Surat Keterangan Aktif Kuliah");
-                System.out.println("Silakan menuju Loket B");
-                break;
-            case 3:
-                System.out.println("Layanan: Pembayaran UKT");
-                System.out.println("Silakan menuju Loket C");
-                break;
-            case 4:
-                System.out.println("Layanan: Pengajuan Cuti Akademik");
-                System.out.println("Silakan menuju Loket D");
-                break;
-            default:
-                System.out.println("Kode layanan tidak tersedia");
+        System.out.print("Apakah mahasiswa sedang sanksi akademik? (true/false): ");
+        boolean sanksiAkademik = sc.nextBoolean();
+
+        System.out.print("Masukkan nilai Dasar Pemrograman: ");
+        int nilaiDasproq = sc.nextInt();
+
+        System.out.print("Apakah punya sertifikat kompetensi pemrograman? (true/false): ");
+        boolean punyaSertifikat = sc.nextBoolean();
+
+        System.out.print("Masukkan nilai wawancara: ");
+        int nilaiWawancara = sc.nextInt();
+
+        if (statusAktif && !sanksiAkademik) {
+            if (nilaiDasproq >= 80 || punyaSertifikat) {
+                if (nilaiWawancara >= 75) {
+                    System.out.println("Selamat! Mahasiswa diterima sebagai asisten praktikum");
+                } else {
+                    System.out.println("Gagal! Nilai wawancara belum mencapai 75");
+                }
+            } else {
+                System.out.println("Gagal! Nilai Dasar Pemrograman kurang dari 80 dan tidak memiliki sertifikat kompetensi");
+            }
+        } else {
+            System.out.println("Gagal! Status mahasiswa tidak aktif atau sedang mendapat sanksi akademik");
         }
     }
 }
@@ -322,4 +335,4 @@ public class TugasAntrean28 {
 
 ## 4: KESIMPULAN
 
-Berdasarkan praktikum yang telah dilakukan, dapat disimpulkan bahwa struktur pemilihan (IF, IF-ELSE, dan SWITCH-CASE) sangat penting digunakan untuk mengatur alur jalannya program (*flow control*) berdasarkan kondisi atau pilihan yang ditentukan oleh pengguna. IF-ELSE lebih fleksibel untuk kondisi berbasis rentang nilai atau boolean, sedangkan SWITCH-CASE lebih rapi digunakan untuk kondisi dengan nilai diskret yang jumlahnya banyak. Selain itu, Ternary Operator dapat digunakan sebagai bentuk penyederhanaan IF-ELSE untuk kasus keputusan dua nilai yang sederhana.
+Berdasarkan praktikum yang telah dilakukan, dapat disimpulkan bahwa struktur pemilihan bersarang (Nested IF) memungkinkan program untuk melakukan pengecekan syarat secara berlapis dan memberikan pesan yang lebih spesifik untuk setiap kondisi kegagalan, dibandingkan hanya menggunakan satu kondisi gabungan. Selain itu, operator logika `&&`, `||`, dan `!` sangat berguna untuk menyederhanakan penulisan beberapa kondisi sekaligus dalam satu ekspresi, serta memanfaatkan mekanisme *short-circuit evaluation* agar program berjalan lebih efisien.
