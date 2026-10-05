@@ -3,33 +3,37 @@ import java.util.Scanner;
 public class tugas1DiskonTokoBuku28 {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
+        String namaBuku;
+        int jumlahBuku;
+        int diskon;
+        int diskonkamus = 10;
+        int diskonnovel = 7;
+        int diskonlain = 5;
 
-        System.out.print("Apakah pelanggan member? (true/false): ");
-        boolean isMember = sc.nextBoolean();
+        System.out.println("Masukkan nama buku : ");
+        namaBuku = sc.nextLine();
 
-        System.out.print("Masukkan total belanja: ");
-        double totalBelanja = sc.nextDouble();
+        System.out.println("jumlah buku yang dibeli : ");
+        jumlahBuku = sc.nextInt();
 
-        double diskon;
-        double totalBayar;
-
-        if (isMember) {
-            if (totalBelanja >= 500000) {
-                diskon = 0.20;
-            } else {
-                diskon = 0.10;
-            }
+        if (namaBuku.equalsIgnoreCase("kamus") && jumlahBuku <= 2) {
+            diskon = diskonkamus;
+        } else if (namaBuku.equalsIgnoreCase("kamus") && jumlahBuku > 2) {
+            diskon = diskonkamus + 2;
+        } else if (namaBuku.equalsIgnoreCase("novel") && jumlahBuku <= 3) {
+            diskon = ++diskonnovel;
+        } else if (namaBuku.equalsIgnoreCase("novel") && jumlahBuku > 3) {
+            diskon = diskonnovel + 2;
+        } else if (!namaBuku.equalsIgnoreCase("kamus") && !namaBuku.equalsIgnoreCase("novel") && jumlahBuku > 3) {
+            diskon = diskonlain;
         } else {
-            if (totalBelanja >= 500000) {
-                diskon = 0.05;
-            } else {
-                diskon = 0;
-            }
+            diskon = 0;
         }
 
-        totalBayar = totalBelanja - (totalBelanja * diskon);
-
-        System.out.println("Diskon yang didapat: " + (diskon * 100) + "%");
-        System.out.println("Total yang harus dibayar: Rp. " + totalBayar);
+        System.out.println("---Toko Buku---");
+        System.out.println("Buku yang dibeli : " + namaBuku);
+        System.out.println("Jumlah buku yang dibeli : " + jumlahBuku);
+        System.out.println("Diskon yang didapat : " + diskon + "%");
+        sc.close();
     }
 }
